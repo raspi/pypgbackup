@@ -1,0 +1,19 @@
+Simple per database backup dump for PostgreSQL
+Uses pg_dump and pg_restore
+
+Categorizes dumps to active and non-active
+
+Active = someone is currently using database and there's light chance that newest data might be broken. 
+
+Some people don't know what transactions are and this might be the case:
+INSERT data
+SELECT something based on that INSERT
+INSERT something based on last SELECT query
+
+Now we take backup unfortynatelly in wrong time:
+INSERT data
+SELECT something based on that INSERT
+*Take database dump here*
+INSERT something based on last SELECT query
+
+-> Database dump is broken
